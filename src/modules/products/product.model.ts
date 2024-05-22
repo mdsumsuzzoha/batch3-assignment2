@@ -10,7 +10,8 @@ const variantSchema = new Schema<TVariant>({
         type: String,
         required: true
     }
-}
+},
+    { _id: false }
 )
 
 const productSchema = new Schema<TProduct>({
@@ -48,6 +49,10 @@ const productSchema = new Schema<TProduct>({
             required: true
         }
     }
-});
+},
+    {
+        versionKey: false // Exclude __v field
+    }
+);
 
 export const ProductModel = model<TProduct>('Product', productSchema);

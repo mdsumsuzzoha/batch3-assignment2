@@ -11,7 +11,7 @@ const createProduct = async (req: Request, res: Response) => {
             message: "Product created successfully!",
             data: result
         })
-    } catch (error: any) {
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Product could not saved!",
@@ -29,7 +29,7 @@ const getAllProducts = async (req: Request, res: Response) => {
             data: result
         })
 
-    } catch (error: any) {
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Product fetched failed!",
@@ -48,10 +48,60 @@ const getSpecificProduct = async (req: Request, res: Response) => {
             data: result
         })
 
-    } catch (error: any) {
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Product fetched failed!",
+            error: error,
+        })
+    }
+
+}
+const updateSpecificProduct = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const updatedFields = req.body;
+
+        const result = await ProductServices.updateSpecificProduct(productId, updatedFields);
+
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Product updated failed!",
+            error: error,
+        })
+    }
+
+}
+const deleteSpecificProduct = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+
+        const result = await ProductServices.deleteSpecificProduct(productId);
+
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        } else {
+            res.status(200).json({
+                success: true,
+                message: "Product deleted successfully!",
+                data: result,
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Product updated failed!",
             error: error,
         })
     }
@@ -64,5 +114,7 @@ const getSpecificProduct = async (req: Request, res: Response) => {
 export const ProductControllers = {
     createProduct,
     getAllProducts,
-    getSpecificProduct
+    getSpecificProduct,
+    updateSpecificProduct,
+    deleteSpecificProduct
 }

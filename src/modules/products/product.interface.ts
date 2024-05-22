@@ -1,4 +1,8 @@
 
+export type UpdatedFields = {
+    [key: string]: unknown; 
+}
+
 export type TVariant ={
     type: string;
     value: string;
