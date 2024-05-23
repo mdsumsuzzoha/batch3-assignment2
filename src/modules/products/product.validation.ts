@@ -14,7 +14,7 @@ const variantValidationSchema =z.object({
     price: z.number().nonnegative({ message: "Price must be a non-negative number" }),
     category: z.string().min(1, "Category cannot be empty"),
     tags: z.array(z.string().min(1, "Tag cannot be empty")),
-    variants: z.tuple([variantValidationSchema]),
+    variants: z.array(variantValidationSchema),
     inventory: z.object({
       quantity: z.number().nonnegative({ message: "Quantity must be a non-negative number" }),
       inStock: z.boolean(),
