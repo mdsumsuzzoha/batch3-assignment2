@@ -1,22 +1,22 @@
 
-# Express TypeScript MongoDB Application
+# Express TypeScript MongoDB Application (E-commerce)
 
 ## Objective
 
-This project aims to develop an Express application with TypeScript as the programming language, integrating MongoDB with Mongoose for effective data management. It includes functionality for product and order management in an e-commerce system, along with validation using Joi/Zod.
+This project aims to develop an Express application with TypeScript as the programming language, integrating MongoDB with Mongoose for effective data management. It includes functionality for product and order management in an e-commerce system, along with validation using Zod.
 
 ### Functionality
 The application provides endpoints for managing products and orders in an e-commerce system:
 
-Product Management: Allows creating, retrieving, updating, and deleting products. Supports searching for products based on a search term.
-Order Management: Supports creating new orders and retrieving existing orders. Updates inventory quantity and in-stock status based on ordered quantity.
+- Product Management: Allows creating, retrieving, updating, and deleting products. Supports searching for products based on a search term as like (name, category and variant type).
+- Order Management: Supports creating new orders and retrieving existing orders. Updates inventory quantity and in-stock status based on ordered quantity.
 
 ### Technologies Used
 - Express.js: Web application framework for Node.js.
 - TypeScript: Superset of JavaScript with static typing.
 - MongoDB: NoSQL database for storing product and order data.
 - Mongoose: MongoDB object modeling for Node.js.
-- Joi: Library for validation.
+- zod: Library for validation.
 
 ## Running the Application Locally
 
@@ -41,7 +41,7 @@ Replace <repository-url> with the URL of the repository.
 Open a terminal/command prompt and navigate to the project directory:
 
 ```bash
-cd express-ts-mongodb
+cd  batch3-assignment2
 
 ```
 ### Install Dependencies
