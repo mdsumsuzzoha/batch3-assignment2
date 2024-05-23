@@ -2,6 +2,8 @@ import { ProductModel } from "../products/product.model";
 import { TOrder } from "./order.interface";
 import { OrderModel } from "./order.model";
 
+
+
 const createOrder = async (inputData: TOrder) => {
     try {
         const product = await ProductModel.findById(inputData.productId);
@@ -10,27 +12,27 @@ const createOrder = async (inputData: TOrder) => {
             return { success: false, message: `Product with ID ${inputData.productId} not found.` };
         }
 
-        let productQty = product.inventory.quantity;
-        let productStk = product.inventory.inStock;
+        let { quantity: productQty, inStock: productStk } = product.inventory;
 
-        if (product.inventory.quantity < inputData.quantity) {
+        if (productQty < inputData.quantity) {
             return { success: false, message: "Insufficient quantity available in inventory. Order creation failed!" };
-        } else if (productStk) {
-            const result = await OrderModel.create(inputData);
-            if (result) {
-                productQty -= inputData.quantity;
-                await product.save();
-                if (productQty <= 0) {
-                    productStk = false;
-                    productQty = 0;
-                    product.inventory.inStock = productStk;
-                    product.inventory.quantity = productQty;
-                    await product.save();
-                }
-                return result;
-            } else {
-                return { success: false, message: "Order creation failed!" };
+        }
+
+        const result = await OrderModel.create(inputData);
+        if (result) {
+            productQty -= inputData.quantity;
+
+            if (productQty <= 0) {
+                productStk = false;
+                productQty = 0;
             }
+
+            product.inventory.quantity = productQty;
+            product.inventory.inStock = productStk;
+            await product.save();
+            return { success: true, order: result };
+        } else {
+            return { success: false, message: "Order creation failed!" };
         }
     } catch (error) {
         return { success: false, message: "Failed to create order. Internal server error.", error: error };
@@ -38,11 +40,24 @@ const createOrder = async (inputData: TOrder) => {
 };
 
 
+const searchOrder = async (email: string) => {
+    try {
+        const result = await OrderModel.find({ email: email });
+        return result;
+    } catch (error) {
+        return { success: false, message: "Order search failed!" }
+    }
+
+}
+
+const getOrder = async () => {
+    const result = await OrderModel.find();
+    return result;
+
+}
+
 export const OrderServices = {
     createOrder,
-    // getAllProducts,
-    // getSpecificProduct,
-    // updateSpecificProduct,
-    // deleteSpecificProduct,
-    // searchProducts
+    getOrder,
+    searchOrder,
 } 
