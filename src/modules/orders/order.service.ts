@@ -30,7 +30,9 @@ const createOrder = async (inputData: TOrder) => {
             product.inventory.quantity = productQty;
             product.inventory.inStock = productStk;
             await product.save();
-            return { success: true, order: result };
+            return { success: true, 
+                message: "Order created successfully!",
+                data: result };
         } else {
             return { success: false, message: "Order creation failed!" };
         }
